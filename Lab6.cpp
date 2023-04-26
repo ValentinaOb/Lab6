@@ -36,11 +36,11 @@ public:
     class D2 : protected Base
 {
 protected:
-    double dt;
+    double d2;
 public:
-    D2() : dt(1) {}
-    D2(int d) : dt(d) {}
-    D2(int a, int e) : Base(a), dt(e) {}
+    D2() : d2(1) {}
+    D2(int d) : d2(d) {}
+    D2(int a, double dt) : Base(a), d2(dt) {}
 };
     class D3 : protected D1, protected D2
 {
@@ -49,7 +49,7 @@ protected:
 public:
     D3() : dt(1) {}
     D3(int d) : dt(d) {}
-    D3(int a, int b, int c, double d, int e) : D1(a, b), D2(c, d), dt(e) {}
+    D3(int a, int b, int c, double d, int e) : D1(a, b), D2(a, c), dt(e) {}
 };
     class D4 : protected D2
 {
@@ -71,29 +71,27 @@ public:
 
     void showDat()
     {
-        std::cout << " dat = " << dt << std::endl;
-        std::cout << "R1::D3::D1::Base::dat = " << R1::D3::D1::Base::dat << std::endl;
+        std::cout << "R1::D3::D2::Base::dat = " << R1::D3::D2::Base::dat << std::endl;
         std::cout << "Base::dat = " << Base::dat << std::endl;
-        std::cout << "R1::dt = " << R1::dt << std::endl;
+        std::cout << "R1::D2::Base::dat = " << R1::D2::Base::dat << std::endl;
     }
 
 };
     class R2 : protected D1, protected D4
 {
-protected:
-    double dt;
+    protected:
+        double dt;
 public:
     R2() : dt(1) {}
     R2(int d) : dt(d) {}
     R2(int a, int b, int c, double d, int e) : D1(a, b), D4(b, c, d), dt(e) {}
 
-void showDat()
-{
-    std::cout << " dat = " << dt << std::endl;
-    std::cout << "R2::D4::D2::Base::dat = " << R2::D4::D2::Base::dat << std::endl;
-    std::cout << "Base::dat = " << Base::dat << std::endl;
-    std::cout << "R2::dt = " << R2::dt << std::endl;
-}
+    void showDat()
+    {
+        std::cout << "R2::D4::D2::Base::dat = " << R2::D4::D2::Base::dat << std::endl;
+        std::cout << "Base::dat = " << Base::dat << std::endl;
+        std::cout << "R2::D1::Base::dat = " << R2::D1::Base::dat << std::endl;
+    }
     };
 //
     //  virtual
@@ -145,10 +143,10 @@ public:
 
     void showDat()
     {
-        std::cout << " dat = " << dt << std::endl;
         std::cout << "R1V::D3V::D1V::Base::dat = " << R1V::D3V::D1V::Base::dat << std::endl;
+        std::cout << "R1V::D3V::D2V::Base::dat = " << R1V::D3V::D2V::Base::dat << std::endl;
         std::cout << "Base::dat = " << Base::dat << std::endl;
-        std::cout << "R1V::dt = " << R1V::dt << std::endl;
+        std::cout << "R1V::D2V::Base::dat = " << R1V::D2V::Base::dat << std::endl;
     }
 };
     class R2V : virtual protected D1V, virtual protected D4V
@@ -162,10 +160,9 @@ public:
 
     void showDat()
     {
-        std::cout << " dat = " << dt << std::endl;
         std::cout << "R2V::D4V::D2V::Base::dat = " << R2V::D4V::D2V::Base::dat << std::endl;
         std::cout << "Base::dat = " << Base::dat << std::endl;
-        std::cout << "R2V::dt = " << R2V::dt << std::endl;
+        std::cout << "R2V::D1V::Base::dat = " << R2V::D1V::Base::dat << std::endl;
     }
 };    
 
@@ -204,12 +201,12 @@ int main1()
         std::cout << "Size for object class R1 " << sizeof(R1) << " or  "
             << sizeof(a) << " or  " << sizeof(b) << std::endl;
         std::cout << "Size for object class R2 " << sizeof(R2) << " or  "
-            << sizeof(av) << " or  " << sizeof(bv) << std::endl;
+            << sizeof(a1) << " or  " << sizeof(b1) << std::endl;
 
         std::cout << "Size for object class R1V " << sizeof(R1V) << " or  "
-            << sizeof(a) << " or  " << sizeof(b) << std::endl;
-        std::cout << "Size for object class R2V " << sizeof(R2V) << " or  "
             << sizeof(av) << " or  " << sizeof(bv) << std::endl;
+        std::cout << "Size for object class R2V " << sizeof(R2V) << " or  "
+            << sizeof(a1v) << " or  " << sizeof(b1v) << std::endl;
 
         b.showDat();
         bv.showDat();
